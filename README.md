@@ -1,22 +1,94 @@
-# Express Boilerplate!
+# Stock Clock Server
 
-This is a boilerplate project used for starting new projects!
+### Users Endpoints
 
-## Set up
+### POST `/api/auth/login`
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+```js
+// req.body
+{
+  user_name: String,
+  password: String
+}
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
-7. Create Migrations, seeder and specify the database in the config file
-8. Create routers for endpoints and apply them in app.js
-9. pg_ctl start if not started yet
-10. createdb -U username boilerplate
-11. npm run migrate
+// res.body
+{
+  authToken: String
+}
+```
+
+### POST `/api/auth/register`
+
+```js
+// req.body
+{
+  user_name: String,
+  full_name: String,
+  password: String
+}
+
+// res.body
+{
+  user_name: String,
+  full_name: String,
+  password: String,
+  date_created: Timestamp
+}
+```
+
+### GET `/api/stocks/`
+
+Returns all the Stocks the User has subscribed to. Requires an AuthToken for the UserID.
+
+```js
+// req.header
+Authorization: Bearer ${token}
+
+// res.body
+[
+  id: ID,
+  symbol: String,
+  modified: DateTime,
+  user_id: UserId
+]
+```
+
+### POST `/api/stocks/`
+
+Creates a new stock. Requires the symbol of the company with an AuthToken for the UserID.
+
+```js
+// req.body
+{
+  name: String,
+  text: String
+}
+
+// req.header
+Authorization: Bearer ${token}
+
+// res.body
+{
+  id: ID,
+  symbol: String,
+  modified: DateTime,
+  user_id: UserId
+}
+```
+
+### DELETE `/api/stocks/:id`
+
+```js
+// req.params
+{
+  id: ID
+}
+// res.body
+[
+  status: 204
+]
+```
+
 
 ## Scripts
 
@@ -26,8 +98,33 @@ Start nodemon for the application `npm run dev`
 
 Run the tests `npm test`
 
+## Create local
+
+1. pg_ctl start if not started yet
+2. createdb -U user_name editordb
+3. npm run migrate
+
 ## Tear Down
 
 1. npm run migrate -- 0
-2. dropdb boilerplate
+2. dropdb db_name
 3. pg_ctl stop
+
+## Heroku
+
+1. heroku create
+2. heroku addons:create heroku-postgresql:hobby-dev
+3. heroku config:set JWT_SECRET=paste-your-token-here
+
+## Technology Stack
+
+### Backend
+
+- **Express** for handling API requests
+- **Node** for interacting with the file system
+- **Knex.js** for interfacing with the **PostgreSQL** database
+- **Postgrator** for database migration
+- **Mocha**, **Chai**, **Supertest** for endpoints testing
+- **JSON Web Token**, **bcryptjs** for user authentication / authorization
+- **Xss** for cross-site scripting protection
+- **Winston**, **Morgan** for logging and errors
