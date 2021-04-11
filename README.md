@@ -100,21 +100,24 @@ Run the tests `npm test`
 
 ## Create local
 
-1. pg_ctl start if not started yet
-2. createdb -U user_name editordb
-3. npm run migrate
+- `pg_ctl -D /usr/local/var/postgres start` if not started yet (Mac)
+- `createuser -Pw --interactive` if user has not yet been created
+2. `createdb -U user_name stockdb`
+3. `npm run migrate`
+
 
 ## Tear Down
 
-1. npm run migrate -- 0
-2. dropdb db_name
-3. pg_ctl stop
+1. `npm run migrate -- 0`
+2. `dropdb db_name`
+3. `pg_ctl stop`
 
 ## Heroku
 
-1. heroku create
-2. heroku addons:create heroku-postgresql:hobby-dev
-3. heroku config:set JWT_SECRET=paste-your-token-here
+1. `heroku create`
+2. `heroku addons:create heroku-postgresql:hobby-dev`
+3. `heroku config:set JWT_SECRET=paste-your-token-here`
+- Set scale to free: `heroku ps:scale web=1`
 
 ## Technology Stack
 
