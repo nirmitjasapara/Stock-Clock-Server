@@ -102,9 +102,15 @@ Run the tests `npm test`
 
 - `pg_ctl -D /usr/local/var/postgres start` if not started yet (Mac)
 - `createuser -Pw --interactive` if user has not yet been created
-2. `createdb -U user_name stockdb`
-3. `npm run migrate`
+1. `createdb -U user_name stockdb`
+2. `npm run migrate`
 
+## Setup for running tests
+
+- `pg_ctl -D /usr/local/var/postgres start` if not started yet (Mac)
+- `createuser -Pw --interactive` if user has not yet been created
+2. `createdb -U user_name stockdb-test`
+3. `npm run migrate:test`
 
 ## Tear Down
 
@@ -117,6 +123,7 @@ Run the tests `npm test`
 1. `heroku create`
 2. `heroku addons:create heroku-postgresql:hobby-dev`
 3. `heroku config:set JWT_SECRET=paste-your-token-here`
+4. `npm run deploy`
 - Set scale to free: `heroku ps:scale web=1`
 - If problems with verification: `heroku config:set PGSSLMODE=no-verify.`
 
