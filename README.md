@@ -118,6 +118,7 @@ Run the tests `npm test`
 2. `heroku addons:create heroku-postgresql:hobby-dev`
 3. `heroku config:set JWT_SECRET=paste-your-token-here`
 - Set scale to free: `heroku ps:scale web=1`
+- If problems with verification: `heroku config:set PGSSLMODE=no-verify.`
 
 ## Technology Stack
 
