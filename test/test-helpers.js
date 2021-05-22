@@ -39,21 +39,25 @@ function makeStocksArray(users) {
     {
       id: 1,
       symbol: "IBM",
-      user_id: users[0].id
+      modified: "2021-05-22T18:46:21.072Z",
+      user_id: users[1].id
     },
     {
       id: 2,
-      name: "AAPL",
+      symbol: "AAPL",
+      modified: "2021-05-22T18:46:21.072Z",
       user_id: users[1].id
     },
     {
       id: 3,
-      name: "MSFT",
+      symbol: "MSFT",
+      modified: "2021-05-22T18:46:21.072Z",
       user_id: users[2].id
     },
     {
       id: 4,
-      name: "NFLX",
+      symbol: "NFLX",
+      modified: "2021-05-22T18:46:21.072Z",
       user_id: users[3].id
     }
   ];
@@ -63,6 +67,9 @@ function makeStocksFixtures() {
   const testUsers = makeUsersArray();
   const testStocks = makeStocksArray(testUsers);
   return { testUsers, testStocks };
+}
+function makeExpectedStocks(stocks, testUser) {
+  return stocks.filter(s => testUser.id === s.user_id);
 }
 
 function cleanTables(db) {
@@ -106,7 +113,7 @@ function seedStocksTable(db, users, stocks) {
     await trx.into("stocks").insert(stocks);
     // update the auto sequence to match the forced id values
     await trx.raw(`SELECT setval('stocks_id_seq', ?)`, [
-        stocks[stocks.length - 1].id
+      stocks[stocks.length - 1].id
     ]);
   });
 }
@@ -124,6 +131,7 @@ module.exports = {
   makeStocksArray,
 
   makeStocksFixtures,
+  makeExpectedStocks,
   cleanTables,
   seedStocksTable,
   makeAuthHeader,
